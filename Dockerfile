@@ -4,7 +4,7 @@
 FROM ubuntu:latest
 MAINTAINER Kolja Dummann <kolja.dummann@logv.ws>
 
-ENV GCC_VERSION 6.2.0
+ENV GCC_VERSION 6.3.0
 ENV LIBC_VERSION 2.0.0
 ENV BINUTILS_VERSION 2.25.1
 
