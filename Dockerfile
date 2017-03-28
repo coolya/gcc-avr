@@ -6,7 +6,7 @@ MAINTAINER Kolja Dummann <kolja.dummann@logv.ws>
 
 ENV GCC_VERSION 6.3.0
 ENV LIBC_VERSION 2.0.0
-ENV BINUTILS_VERSION 2.25.1
+ENV BINUTILS_VERSION 2.28
 
 ENV PATH $PATH:/usr/local/avr/bin
 
@@ -31,7 +31,7 @@ RUN \
  && ../configure --prefix=/usr/local/avr --target=avr --disable-nls \
  && make && make install && cd ../.. \
     #### build and install gcc####
- && wget ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.bz2 \
+ && wget http://mirrors-usa.go-parts.com/gcc/releases/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.bz2 \
  && bunzip2 -c gcc-$GCC_VERSION.tar.bz2 | tar xf - && cd gcc-$GCC_VERSION \
  && mkdir build && cd build \
  && ../configure --prefix=/usr/local/avr --target=avr --enable-languages=c,c++ --disable-nls --disable-libssp --with-dwarf2 \
