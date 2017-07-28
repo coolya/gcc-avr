@@ -20,6 +20,7 @@ deploy to production:
     DOCKER_DRIVER: overlay
     ARCH: amd64
   before_script:
+    - apt-get update && apt-get install -y wget
     - wget "https://github.com/scaleway/scaleway-cli/releases/download/v1.14/scw_1.14_${ARCH}.deb" -O /tmp/scw.deb
     - dpkg -i /tmp/scw.deb && rm -f /tmp/scw.deb
 #    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
