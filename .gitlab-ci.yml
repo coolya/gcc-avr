@@ -24,7 +24,7 @@ deploy to production:
     - wget "https://github.com/scaleway/scaleway-cli/releases/download/v1.14/scw_1.14_${ARCH}.deb" -O /tmp/scw.deb
     - dpkg -i /tmp/scw.deb && rm -f /tmp/scw.deb
 #    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - scw login -t $SCW_TOKEN
+    - scw login -t $SCW_TOKEN -o $SCW_ACCESS
   stage: build
   script:
     - scw create --commercial-type=X64-120GB  --ip-address=dynamic --name="$SCW_SERVER_NAME" docker
