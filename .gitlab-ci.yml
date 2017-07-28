@@ -13,22 +13,25 @@ stages:
 
 
 deploy to production:
-  image: scaleway/cli:latest
+  image: ubuntu
   variables:
     IMAGE_TAG: coolya/avr-gcc:latest
     SCW_SERVER_NAME: buildbob
     DOCKER_DRIVER: overlay
+    ARCH: amd64
   before_script:
+    - wget "https://github.com/scaleway/scaleway-cli/releases/download/v1.14/scw_1.14_${ARCH}.deb" -O /tmp/scw.deb
+    - dpkg -i /tmp/scw.deb && rm -f /tmp/scw.deb
 #    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - login -t $SCW_TOKEN
+    - scw login -t $SCW_TOKEN
   stage: build
   script:
-    - create --commercial-type=X64-120GB  --ip-address=dynamic --name="$SCW_SERVER_NAME" docker
-    - start $SCW_SERVER_NAME -w
-    - exec $SCW_SERVER_NAME "cd /tmp && git clone https://git.logv.ws/coolya/avr-gcc.git && cd avr-gcc && git checkout $CI_COMMIT_SHA"
-    - exec $SCW_SERVER_NAME "cd /tmp/avr-gcc && docker build -t $IMAGE_TAG ./7.1"
-    - exec $SCW_SERVER_NAME "rm -rf /tmp/avr-gcc"
-    - stop $SCW_SERVER_NAME -w -t
+    - scw create --commercial-type=X64-120GB  --ip-address=dynamic --name="$SCW_SERVER_NAME" docker
+    - scw start $SCW_SERVER_NAME -w
+    - scw exec $SCW_SERVER_NAME "cd /tmp && git clone https://git.logv.ws/coolya/avr-gcc.git && cd avr-gcc && git checkout $CI_COMMIT_SHA"
+    - scw exec $SCW_SERVER_NAME "cd /tmp/avr-gcc && docker build -t $IMAGE_TAG ./7.1"
+    - scw exec $SCW_SERVER_NAME "rm -rf /tmp/avr-gcc"
+    - scw stop $SCW_SERVER_NAME -w -t
 #    - docker push $IMAGE_TAG
   only:
     - master
