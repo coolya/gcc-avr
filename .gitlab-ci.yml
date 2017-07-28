@@ -14,17 +14,22 @@ stages:
 
 
 deploy to production:
-  image: docker:latest
-  services:
-    - docker:dind
+  image: scw-cli:latest
   variables:
-    IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
+    IMAGE_TAG: coolya/avr-gcc:latest
+    SCW_SERVER_NAME: buildbob
     DOCKER_DRIVER: overlay
   before_script:
 #    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - scw login -t $SCW_TOKEN
   stage: build
   script:
-    - docker build -t $IMAGE_TAG .
+    - scw create --commercial-type=X64-120GB  --ip-address=dynamic --name="$SCW_SERVER_NAME" docker
+    - scw start $SCW_SERVER_NAME -w
+    - scw exec $SCW_SERVER_NAME "cd /tmp && git clone https://git.logv.ws/coolya/avr-gcc.git && cd avr-gcc && git checkout $CI_COMMIT_SHA"
+    - scw exec $SCW_SERVER_NAME "cd /tmp/avr-gcc && docker build -t $IMAGE_TAG ./7.1"
+    - scw exec $SCW_SERVER_NAME "rm -rf /tmp/avr-gcc"
+    - scw stop $SCW_SERVER_NAME -w -t
 #    - docker push $IMAGE_TAG
   only:
     - master
