@@ -1,7 +1,6 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
-image: docker:latest
 stages:
   - build
 
@@ -14,7 +13,7 @@ stages:
 
 
 deploy to production:
-  image: scw-cli:latest
+  image: scaleway/cli:latest
   variables:
     IMAGE_TAG: coolya/avr-gcc:latest
     SCW_SERVER_NAME: buildbob
@@ -33,5 +32,3 @@ deploy to production:
 #    - docker push $IMAGE_TAG
   only:
     - master
-  tags:
-    - container-factory
