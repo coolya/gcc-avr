@@ -7,6 +7,7 @@ MAINTAINER Kolja Dummann <kolja.dummann@logv.ws>
 ENV GCC_VERSION 6.3.0
 ENV LIBC_VERSION 2.0.0
 ENV BINUTILS_VERSION 2.28
+ENV CMAKE_VERSION 3.3.2
 
 ENV PATH $PATH:/usr/local/avr/bin
 
@@ -21,8 +22,8 @@ RUN \
                               libgmp3-dev                        \
  && mkdir /usr/local/avr /opt/distr && cd /opt/distr \
     #### build and install cmake-3.3.2 ####
- && wget https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz --no-check-certificate \
- && tar -zxvf cmake-3.3.2.tar.gz && cd cmake-3.3.2 \
+ && wget https://cmake.org/files/v3.3/cmake-$CMAKE_VERSION.tar.gz --no-check-certificate \
+ && tar -zxvf cmake-$CMAKE_VERSION.tar.gz && cd cmake-$CMAKE_VERSION \
  && ./bootstrap && make && make install && cd .. \
     #### build and install binutils-2.25.1 ####
  && wget http://ftp.gnu.org/gnu/binutils/binutils-$BINUTILS_VERSION.tar.bz2 \
