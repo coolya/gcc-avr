@@ -31,7 +31,7 @@ RUN \
  && ../configure --prefix=/usr/local/avr --target=avr --disable-nls \
  && make && make install && cd ../.. \
     #### build and install gcc####
- && wget ftp://gd.tuwien.ac.at/gnu/gcc/releases/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.bz2 \
+ && wget http://mirrors.concertpass.com/gcc/releases/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.bz2 \
  && bunzip2 -c gcc-$GCC_VERSION.tar.bz2 | tar xf - && cd gcc-$GCC_VERSION \
  && mkdir build && cd build \
  && ../configure --prefix=/usr/local/avr --target=avr --enable-languages=c,c++ --disable-nls --disable-libssp --with-dwarf2 \
